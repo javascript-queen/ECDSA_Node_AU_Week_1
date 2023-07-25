@@ -1,0 +1,14 @@
+const secp = require("ethereum-cryptography/secp256k1");
+const { keccak256 } = require("ethereum-cryptography/keccak");
+
+function pubKeyToAddress(publicKey) {
+    // First step, you'll need to take the first byte off the public key - Uint8Array.
+    firstByteOff = publicKey.slice(1, publicKey.length + 1) // +1 'causethe function doesn't include the last index
+    // Next, take the keccak hash of the rest of the public key.
+    keccakHash = keccak256(firstByteOff)
+    // 20 last bytes
+    twentyLast = keccakHash.length - 20
+    return keccakHash.slice(twentyLast, keccakHash.length + 1)
+}
+
+module.exports = pubKeyToAddress;
